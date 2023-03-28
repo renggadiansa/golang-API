@@ -31,5 +31,20 @@ func GetAllUser(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"data": users,
 		})
+}
 
+func GetById(ctx *gin.Context)  {
+			
+}
+
+func Store(ctx *gin.Context)  {
+			
+}
+
+func UpdateById(ctx *gin.Context)  {
+			
+}
+
+func DeleteById(ctx *gin.Context)  {
+			
 }
