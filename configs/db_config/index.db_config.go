@@ -15,13 +15,14 @@ var DB_USER = "root"
 var DB_PASSWORD = "1234"
 
 func InitDatabaseConfig() {
+
 	driverEnv := os.Getenv("DB_DRIVER")
 	if driverEnv != "" {
 		DB_DRIVER = driverEnv
 	}
 
 	hostEnv := os.Getenv("DB_HOST")
-	if driverEnv != "" {
+	if hostEnv != "" {
 		DB_HOST = hostEnv
 	}
 
@@ -44,4 +45,5 @@ func InitDatabaseConfig() {
 	if passwordEnv != "" {
 		DB_PASSWORD = passwordEnv
 	}
+	
 }

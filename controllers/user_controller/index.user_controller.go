@@ -3,6 +3,7 @@ package user_controller
 import (
 	"gin-goinc-api/database"
 	"gin-goinc-api/models"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,7 +35,21 @@ func GetAllUser(ctx *gin.Context) {
 }
 
 func GetById(ctx *gin.Context)  {
+			id := ctx.Param("id")
+			user := new(models.User)
 			
+			errDb := database.DB.Table("users").Where("id = ?", id).Find(&user).Error
+			if errDb != nil || user.ID == nil{
+				ctx.JSON(http.StatusNotFound, gin.H{
+					"messange" : "Data user not found",
+				})
+				return
+			}
+
+			ctx.JSON(200, gin.H {
+				"message" : "data transmitted",
+				"data" : user,
+			})
 }
 
 func Store(ctx *gin.Context)  {
