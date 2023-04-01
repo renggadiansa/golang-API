@@ -5,6 +5,7 @@ import (
 	"gin-goinc-api/models"
 	"gin-goinc-api/requests"
 	"gin-goinc-api/responses"
+	// "log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -175,5 +176,37 @@ func UpdateById(ctx *gin.Context)  {
 }
 
 func DeleteById(ctx *gin.Context)  {
+			id := ctx.Param("id")
+			user := new(models.User)
+
+			errFind := database.DB.Table("users").Where("id = ?", id).Find(&user).Error
+			if errFind != nil {
+				ctx.JSON(500, gin.H{
+					"message" : "internal server error",
+				})
+				return
+			}
+
+			// log.Println("user", user)
+
+			if user.ID == nil {
+				ctx.JSON(404, gin.H{
+					"message" : "data not found",
+				})
+				return
+			}
+
+			ErrDB := database.DB.Table("users").Unscoped().Where("id = ?", id).Delete(&models.User{}).Error
 			
+			if ErrDB != nil {
+				ctx.JSON(500, gin.H{
+					"message" : "internal server error",
+					"error" : ErrDB.Error(),
+				})
+				return
+			}
+
+			ctx.JSON(200, gin.H{
+				"message" : "data deleted successfully",
+			})
 }
