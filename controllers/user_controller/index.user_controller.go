@@ -5,6 +5,8 @@ import (
 	"gin-goinc-api/models"
 	"gin-goinc-api/requests"
 	"gin-goinc-api/responses"
+	"strconv"
+
 	// "log"
 	"net/http"
 
@@ -22,16 +24,6 @@ func GetAllUser(ctx *gin.Context) {
 					})
 					return
 	}
-	
-	// isValidated := true
-
-	// 	if !isValidated {
-	// 		ctx.AbortWithStatusJSON(400, gin.H{
-	// 			"message": "Bad Request",
-	// 		})
-	// 		return
-	// 	}
-
 		ctx.JSON(200, gin.H{
 			"data": users,
 		})
@@ -209,4 +201,43 @@ func DeleteById(ctx *gin.Context)  {
 			ctx.JSON(200, gin.H{
 				"message" : "data deleted successfully",
 			})
+}
+
+func GetUserPaginate(ctx *gin.Context) {
+
+	page := ctx.Query("page")
+
+	if page == "" {
+		page = ""
+	}
+
+	perPage := ctx.Query("perPage")
+
+	if perPage == "" {
+		perPage = "10"
+	}
+
+	perPageInt , _ := strconv.Atoi(perPage)
+	pageInt , _ := strconv.Atoi(page)
+
+	if pageInt < 1 {
+		pageInt = 1
+	}
+
+
+
+	users := new([]models.User)
+	err := database.DB.Table("users").Offset((pageInt - 1)* perPageInt).Limit(perPageInt).Find(&users).Error
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(500, gin.H{
+						"message": "Internal Server Error",
+					})
+					return
+	}
+		ctx.JSON(200, gin.H{
+			"data": users,
+			"page": pageInt,
+			"per_page": perPageInt,
+		})
 }

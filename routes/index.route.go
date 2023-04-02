@@ -12,6 +12,7 @@ func InitRoute(app *gin.Engine) {
 
 	//route user
 	route.GET("/user", user_controller.GetAllUser)
+	route.GET("/user/paginate", user_controller.GetUserPaginate)
 	route.POST("/user", user_controller.Store)
 	route.GET("/user/:id", user_controller.GetById)
 	route.PATCH("/user/:id", user_controller.UpdateById)
