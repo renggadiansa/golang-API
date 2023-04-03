@@ -2,7 +2,9 @@ package filecontroller
 
 import (
 	"fmt"
-	// "path/filepath"
+	"gin-goinc-api/utils"
+	"path/filepath"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,16 +20,14 @@ func HandleUploadFile(ctx *gin.Context) {
 		return
 	}
 
-	// file, errFile := fileHeader.Open()
 
-	// if errFile != nil {
-	// 	panic(errFile)
-	// }
+	extensionFile := filepath.Ext(fileHeader.Filename)
 
-	// extensionFile := filepath.Ext(fileHeader.Filename)
-	// fileName := 
+	currentTime := time.Now().UTC().Format("2006-01-02 15:04:05")
 
-	errUpload := ctx.SaveUploadedFile(fileHeader, fmt.Sprintf("./public/files/%s", fileHeader.Filename))
+	fileName := fmt.Sprintf("%s-%s%s", currentTime , utils.RandomString(5), extensionFile)
+
+	errUpload := ctx.SaveUploadedFile(fileHeader, fmt.Sprintf("./public/files/%s", fileName))
 
 	if errUpload != nil {
 		ctx.JSON(500, gin.H{
