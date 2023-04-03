@@ -8,3 +8,4 @@ func GetAllBook(ctx *gin.Context) {
 		"message": "Hello Book",
 	})
 }
+
