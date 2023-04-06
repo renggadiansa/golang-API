@@ -1,8 +1,11 @@
 package filecontroller
 
 import (
+	"gin-goinc-api/constants"
 	"gin-goinc-api/utils"
+	"net/http"
 	"path/filepath"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -64,5 +67,28 @@ func HandleUploadFile(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{
 		"message": "file uploaded",
+	})
+}
+
+func HandleRemoveFile(ctx *gin.Context) {
+	filename := ctx.Param("filename")
+
+	if filename == "" {
+		ctx.JSON(400, gin.H{
+			"message" : "filename is required",
+		})
+	}
+	
+	err := utils.RemoveFile(constants.DIR_FILE + filename)
+	if err != nil {
+		ctx.JSON(500, gin.H {
+			"message" : err.Error(),
+		})
+		return
+	}
+	
+	
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "file removed",
 	})
 }
