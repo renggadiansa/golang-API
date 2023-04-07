@@ -5,6 +5,7 @@ import (
 	"gin-goinc-api/controllers/book_controller"
 	filecontroller "gin-goinc-api/controllers/book_controller/file_controller"
 	"gin-goinc-api/controllers/user_controller"
+	"gin-goinc-api/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +28,6 @@ func InitRoute(app *gin.Engine) {
 
 	//route controller file
 	route.POST("/file", filecontroller.HandleUploadFile)
-	route.DELETE("/file/:filename", filecontroller.HandleRemoveFile)
+	route.DELETE("/file/:filename", middleware.AuthMiddlelware ,filecontroller.HandleRemoveFile)
 
 }
