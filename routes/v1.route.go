@@ -14,5 +14,6 @@ func v1Route(app *gin.RouterGroup) {
 	//route controller file
 	authRoute := route.Group("file", middleware.AuthMiddlelware)
 	authRoute.POST("/file",filecontroller.HandleUploadFile)
+	authRoute.POST("/file/middleware", middleware.UploadFile ,filecontroller.SendStatus)
 	authRoute.DELETE("/:filename",filecontroller.HandleRemoveFile)
 }
