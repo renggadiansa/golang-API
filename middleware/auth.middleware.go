@@ -1,23 +1,29 @@
 package middleware
 
 import (
+	"fmt"
 	"gin-goinc-api/utils"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	Bearer = "Bearer"
+)
+
 func AuthMiddlelware(ctx *gin.Context) {
 	bearerToken := ctx.GetHeader("Authorization")
 
-	if !strings.Contains(bearerToken, "Bearer") {
+	if !strings.Contains(bearerToken, Bearer) {
 		ctx.AbortWithStatusJSON(401, gin.H{
 			"message" : "token is required",
 		})
 		return
 	}
 
-	token := strings.Replace(bearerToken, "Bearer ", "", -1)
+	token := strings.Replace(bearerToken,"Bearer ","", -1)
+	fmt.Println(token)
 
 	if token == "" {
 		ctx.AbortWithStatusJSON(401, gin.H{
@@ -27,11 +33,15 @@ func AuthMiddlelware(ctx *gin.Context) {
 	}
 
 	claimsData, err := utils.DecodeToken(token)
+	fmt.Println("claimsData =>", claimsData)
+	fmt.Println("err =>", err)
+
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(401, gin.H{
-			"message" : "token is invalid",
+			"message" : "token is salah",
 		})
+		return
 	}
 
 	ctx.Set("claimsData", claimsData)
@@ -61,3 +71,5 @@ func TokenMiddleware(ctx *gin.Context) {
 
 	ctx.Next()
 }
+
+
