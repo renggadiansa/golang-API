@@ -14,7 +14,7 @@ func InitRoute(app *gin.Engine) {
 	route.Static(app_config.STATIC_ROUTE, app_config.STATIC_DIR)
 
 	//auth route
-	route.POST("/login", auth_controller.Login)	
+	route.POST("/login", auth_controller.Login)
 
 	//route user
 	userRoute := route.Group("user")
@@ -25,12 +25,9 @@ func InitRoute(app *gin.Engine) {
 	userRoute.PATCH("/:id", user_controller.UpdateById)
 	userRoute.DELETE("/:id", user_controller.DeleteById)
 
-
 	//route book
 	route.GET("/book", book_controller.GetAllBook)
 
-
 	v1Route(route)
-
 
 }
