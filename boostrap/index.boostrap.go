@@ -3,6 +3,7 @@ package boostrap
 import (
 	"gin-goinc-api/configs"
 	"gin-goinc-api/configs/app_config"
+	"gin-goinc-api/configs/cors_config"
 	"gin-goinc-api/database"
 	"gin-goinc-api/routes"
 	"log"
@@ -27,6 +28,11 @@ func BootstrapApp() {
 
 	//init gin enggine
 	app := gin.Default()
+
+	//cors config
+	app.Use(cors_config.CorsConfigContrib())
+	// app.Use(cors_config.CorsConfig())
+
 
 	//init routes
 	routes.InitRoute(app)
