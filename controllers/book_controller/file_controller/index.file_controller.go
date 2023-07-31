@@ -13,31 +13,32 @@ import (
 
 func SendStatus(ctx *gin.Context) {
 	filename := ctx.MustGet("filename").(string)
-	 
+
 	ctx.JSON(200, gin.H{
-		"message": "file uploades",
+		"message":   "file uploades",
 		"file_name": filename,
 	})
 }
 
 func HandleUploadFile(ctx *gin.Context) {
+	// CHANGED
+	// keyValue := ctx.PostForm("json")
+	// fmt.Println(keyValue)
 
 	claimsData := ctx.MustGet("claimsData").(jwt.MapClaims)
 	fmt.Println("claimsData => email =>", claimsData["email"])
 
 	userId := ctx.MustGet("user_id").(float64)
 	fmt.Println("userId =>", userId)
-	
 
 	fileHeader, _ := ctx.FormFile("file")
 
 	if fileHeader == nil {
 		ctx.AbortWithStatusJSON(400, gin.H{
-			"message" : "file is required",
+			"message": "file is required",
 		})
 		return
 	}
-
 
 	//validasi by ektensi
 	fileExtension := []string{
@@ -47,12 +48,11 @@ func HandleUploadFile(ctx *gin.Context) {
 	isFileValidated := utils.FileValidationByExtension(fileHeader, fileExtension)
 
 	if !isFileValidated {
-		ctx.AbortWithStatusJSON(400, gin.H {
+		ctx.AbortWithStatusJSON(400, gin.H{
 			"message": "file type is not valid",
 		})
 		return
 	}
-
 
 	//validasi by content type
 	// fileType := []string{
@@ -68,9 +68,7 @@ func HandleUploadFile(ctx *gin.Context) {
 	// 	return
 	// }
 
-
 	extensionFile := filepath.Ext(fileHeader.Filename)
-
 
 	fileName := utils.RandomFileName(extensionFile)
 
@@ -93,19 +91,18 @@ func HandleRemoveFile(ctx *gin.Context) {
 
 	if filename == "" {
 		ctx.JSON(400, gin.H{
-			"message" : "filename is required",
+			"message": "filename is required",
 		})
 	}
-	
+
 	err := utils.RemoveFile(constants.DIR_FILE + filename)
 	if err != nil {
-		ctx.JSON(500, gin.H {
-			"message" : err.Error(),
+		ctx.JSON(500, gin.H{
+			"message": err.Error(),
 		})
 		return
 	}
-	
-	
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "file removed",
 	})
