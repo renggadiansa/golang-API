@@ -24,5 +24,8 @@ jobs:
     - name: Build
       run: go build -o app  -v ./cmd/
 
+    - name: Up database
+      run: docker-compose up -d
+
     - name: Test
       run: go test -v ./...
