@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"path/filepath"
 	"gin-goinc-api/utils"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,11 +12,10 @@ func UploadFile(ctx *gin.Context) {
 
 	if fileHeader == nil {
 		ctx.AbortWithStatusJSON(400, gin.H{
-			"message" : "file is required",
+			"message": "file is required",
 		})
 		return
 	}
-
 
 	//validasi by ektensi
 	fileExtension := []string{
@@ -26,12 +25,11 @@ func UploadFile(ctx *gin.Context) {
 	isFileValidated := utils.FileValidationByExtension(fileHeader, fileExtension)
 
 	if !isFileValidated {
-		ctx.AbortWithStatusJSON(400, gin.H {
+		ctx.AbortWithStatusJSON(400, gin.H{
 			"message": "file type is not valid",
 		})
 		return
 	}
-
 
 	//validasi by content type
 	// fileType := []string{
@@ -47,9 +45,7 @@ func UploadFile(ctx *gin.Context) {
 	// 	return
 	// }
 
-
 	extensionFile := filepath.Ext(fileHeader.Filename)
-
 
 	fileName := utils.RandomFileName(extensionFile)
 

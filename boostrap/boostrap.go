@@ -6,6 +6,7 @@ import (
 	"gin-goinc-api/configs/cors_config"
 	"gin-goinc-api/database"
 	"gin-goinc-api/routes"
+
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ import (
 func BootstrapApp() {
 
 	//load env
-	err:= godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
@@ -33,10 +34,9 @@ func BootstrapApp() {
 	app.Use(cors_config.CorsConfigContrib())
 	// app.Use(cors_config.CorsConfig())
 
-
 	//init routes
 	routes.InitRoute(app)
-	
+
 	//run app
 	app.Run(app_config.PORT)
 }

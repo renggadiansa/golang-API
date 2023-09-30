@@ -6,24 +6,22 @@ var PORT = ":8000"
 var STATIC_ROUTE = "/public"
 var STATIC_DIR = "./public"
 
-
 func InitAppConfig() {
 	portEnv := os.Getenv("APP_PORT")
 
-	if portEnv != ""{
+	if portEnv != "" {
 		PORT = portEnv
 	}
 
+	staticRouteEnv := os.Getenv("STATIC_ROUTE")
 
-staticRouteEnv := os.Getenv("STATIC_ROUTE")
-
-	if staticRouteEnv != ""{
+	if staticRouteEnv != "" {
 		STATIC_ROUTE = staticRouteEnv
 	}
 
 	staticDirEnv := os.Getenv("STATIC_DIR")
 
-	if staticDirEnv != ""{
+	if staticDirEnv != "" {
 		STATIC_DIR = staticDirEnv
 	}
 }

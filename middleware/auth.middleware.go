@@ -22,7 +22,7 @@ func AuthMiddlelware(ctx *gin.Context) {
 		return
 	}
 
-	token := strings.Replace(bearerToken,"Bearer ","", -1)
+	token := strings.Replace(bearerToken, "Bearer ", "", -1)
 	fmt.Println(token)
 
 	if token == "" {
@@ -39,7 +39,6 @@ func AuthMiddlelware(ctx *gin.Context) {
 	if err != nil {
 		ctx.AbortWithStatusJSON(401, gin.H{
 			"message": "token is invalid",
-
 		})
 		return
 	}
@@ -70,4 +69,3 @@ func TokenMiddleware(ctx *gin.Context) {
 
 	ctx.Next()
 }
-

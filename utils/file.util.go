@@ -13,6 +13,7 @@ import (
 )
 
 var carset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
 func RandomString(n int) string {
 	//rand.Seed(time.Now().UnixMilli())
 	b := make([]byte, n)
@@ -24,7 +25,7 @@ func RandomString(n int) string {
 
 func FileValidationByExtension(fileHeader *multipart.FileHeader, fileExtension []string) bool {
 	extension := filepath.Ext(fileHeader.Filename)
-	log.Println( "extension",extension)
+	log.Println("extension", extension)
 	result := false
 
 	for _, typeFile := range fileExtension {
@@ -44,13 +45,13 @@ func RandomFileName(extensionFile string, prefix ...string) string {
 	if len(prefix) > 0 {
 
 		if prefix[0] != "" {
-			currentPrefix= prefix[0]
+			currentPrefix = prefix[0]
 		}
 
 	}
 
 	currentTime := time.Now().UTC().Format("2006-01-02 15:04:05")
-	fileName := fmt.Sprintf("%s-%s-%s%s",currentPrefix ,currentTime , RandomString(5), extensionFile)
+	fileName := fmt.Sprintf("%s-%s-%s%s", currentPrefix, currentTime, RandomString(5), extensionFile)
 
 	return fileName
 
